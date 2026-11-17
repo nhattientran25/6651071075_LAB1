@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Tiến Táo — Điện thoại và phụ kiện chính hãng</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,400;0,500;0,600;0,700;0,900;1,500&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com/3.4.17"></script>
+<link rel="stylesheet" href="style.css">
+<script src="script.js" defer></script>
+</head>
+<body class="antialiased">
+
+<div class="bg-navy-900 text-[12px] topbar">
+  <div class="max-w-6xl mx-auto px-5 md:px-8 h-9 flex items-center justify-between">
+    <div class="hidden sm:flex items-center gap-5 truncate">
+      <span>Hotline: 1900 6868</span>
+      <span>Miễn phí giao hàng cho đơn từ 2.000.000đ</span>
+    </div>
+    <div class="flex items-center gap-4 ml-auto">
+      <button id="loginBtn" type="button" aria-haspopup="dialog" aria-controls="loginDialog" class="hover:text-white transition-colors">Đăng nhập</button>
+      <span class="w-px h-3 bg-white/20"></span>
+      <button id="cartBtn" type="button" aria-haspopup="dialog" aria-controls="cartDialog" class="relative flex items-center gap-1.5 hover:text-white transition-colors">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M3 4h2l2.4 12.4a2 2 0 002 1.6h8.6a2 2 0 002-1.6L21 8H6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><circle cx="9" cy="21" r="1.3" fill="currentColor"/><circle cx="18" cy="21" r="1.3" fill="currentColor"/></svg>
+        Giỏ hàng
+        <span id="cartCount" class="text-white text-[10px] w-4 h-4 rounded-full grid place-items-center bg-sky">0</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- HEADER -->
+<header class="sticky top-0 z-40 surface border-b hairline">
+  <div class="max-w-6xl mx-auto px-5 md:px-8 h-16 md:h-20 flex items-center justify-between">
+    <a href="#" class="flex items-baseline gap-1 shrink-0">
+      <span class="text-2xl font-900">Tiến Táo</span>
+    </a>
+    <nav class="hidden md:flex items-center gap-9 text-[15px] font-medium text-soft">
+      <a href="#danhmuc" class="hover:text-[var(--ink)] transition-colors">Điện thoại</a>
+      <a href="#danhmuc" class="hover:text-[var(--ink)] transition-colors">Phụ kiện</a>
+      <a href="#loiich" class="hover:text-[var(--ink)] transition-colors">So sánh</a>
+      <a href="#danhgia" class="hover:text-[var(--ink)] transition-colors">Đánh giá</a>
+      <a href="#lienhe" class="hover:text-[var(--ink)] transition-colors">Liên hệ</a>
+    </nav>
+    <div class="flex items-center gap-1">
+      <button id="searchBtn" type="button" aria-label="Tìm kiếm" aria-controls="searchPanel" aria-expanded="false" class="w-10 h-10 grid place-items-center rounded-lg hover:bg-black/5 transition-colors">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.8"/><path d="M20 20l-3.5-3.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      </button>
+      <a href="#cta" class="hidden sm:inline-flex btn-primary rounded-full px-5 py-2.5 text-sm font-semibold ml-2">Tư vấn ngay</a>
+      <button id="menuBtn" aria-label="Mở menu" aria-expanded="false" class="md:hidden w-10 h-10 grid place-items-center rounded-lg border hairline">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M2 5h16M2 10h16M2 15h16" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+  </div>
+  <div id="mobileMenu" class="hidden md:hidden border-t hairline surface px-5 py-4 flex flex-col gap-4 text-[15px] font-medium text-soft">
+    <a href="#danhmuc">Điện thoại</a>
+    <a href="#danhmuc">Phụ kiện</a>
+    <a href="#loiich">So sánh</a>
+    <a href="#danhgia">Đánh giá</a>
+    <a href="#lienhe">Liên hệ</a>
+    <a href="#cta" class="btn-primary rounded-full px-5 py-2.5 text-sm font-semibold text-center">Tư vấn ngay</a>
+  </div>
+</header>
+<div id="searchPanel" class="hidden surface border-b hairline">
+  <form id="productSearchForm" class="max-w-6xl mx-auto px-5 md:px-8 py-4 flex flex-col sm:flex-row gap-3">
+    <select id="searchCategory" aria-label="Lọc theo danh mục" class="hairline border rounded-lg px-3 py-2.5 text-sm text-soft bg-transparent">
+      <option value="all">Tất cả danh mục</option>
+      <option value="Điện thoại">Điện thoại</option>
+      <option value="Tai nghe">Tai nghe</option>
+      <option value="Sạc &amp; cáp">Sạc &amp; cáp</option>
+      <option value="Ốp lưng &amp; kính cường lực">Ốp lưng &amp; kính cường lực</option>
+      <option value="Đồng hồ thông minh">Đồng hồ thông minh</option>
+    </select>
+    <input id="productSearchInput" type="search" aria-label="Tìm tên hoặc thông tin sản phẩm" placeholder="Tìm sản phẩm, ví dụ: Galaxy A55" class="flex-1 hairline border rounded-lg px-4 py-2.5 text-sm bg-transparent">
+    <button type="submit" class="btn-primary rounded-lg px-5 py-2.5 text-sm font-semibold">Tìm</button>
+  </form>
+</div>
+
+<!-- HERO -->
+<section class="bg-navy relative overflow-hidden">
+  <div class="max-w-6xl mx-auto px-5 md:px-8 py-16 md:py-24 grid md:grid-cols-[1.15fr_0.85fr] gap-12 items-center relative z-10">
+    <div>
+      <h1 class="rise rise-d1 text-white font-900 leading-[1.08] text-[2.3rem] sm:text-5xl md:text-[3.3rem]">
+        Chọn điện thoại bằng dữ liệu, không phải cảm tính.
+      </h1>
+      <p class="rise rise-d2 mt-5 text-[17px] leading-relaxed max-w-md text-on-navy-muted">
+        Mỗi sản phẩm tại Tiến Táo đi kèm thông số đối chiếu thực tế, đánh giá từ người dùng đã mua, và mức giá niêm yết rõ ràng — để bạn nhìn thấy đúng những gì mình đang chọn.
+      </p>
+      <div class="rise rise-d3 mt-8 flex flex-wrap gap-3">
+        <a href="#danhmuc" class="btn-primary rounded-full px-7 py-3.5 font-semibold text-[15px]">Khám phá sản phẩm</a>
+        <a href="#loiich" class="rounded-full px-7 py-3.5 font-semibold text-[15px] border border-white/25 text-white hover:bg-white/10 transition-colors">Xem cách chúng tôi so sánh</a>
+      </div>
+      <dl class="rise rise-d4 mt-11 grid grid-cols-3 gap-6 max-w-md border-t border-white/15 pt-6">
+        <div><dt class="text-white text-xl font-bold">15.000+</dt><dd class="text-[13px] mt-0.5 text-on-navy-soft">khách hàng đã chọn máy</dd></div>
+        <div><dt class="text-white text-xl font-bold">320+</dt><dd class="text-[13px] mt-0.5 text-on-navy-soft">mẫu máy được đối chiếu</dd></div>
+        <div><dt class="text-white text-xl font-bold">12 tháng</dt><dd class="text-[13px] mt-0.5 text-on-navy-soft">bảo hành chính hãng</dd></div>
+      </dl>
+    </div>
+
+    <!-- literal subject: a phone showing a live spec-comparison screen -->
+    <div class="rise rise-d2 justify-self-center">
+      <svg width="260" height="520" viewBox="0 0 260 520" class="drop-shadow-2xl">
+        <rect x="4" y="4" width="252" height="512" rx="42" fill="#0F2746" stroke="#2E4D78" stroke-width="2"/>
+        <rect x="18" y="20" width="224" height="480" rx="28" fill="#F5F7FB"/>
+        <rect x="100" y="30" width="60" height="7" rx="3.5" fill="#0F2746" opacity=".5"/>
+        <text x="34" y="70" fill="#0B1F3A" font-family="'Be Vietnam Pro',sans-serif" font-size="13" font-weight="700">So sánh model</text>
+        <text x="34" y="88" fill="#4B5A72" font-family="'Be Vietnam Pro',sans-serif" font-size="10">Pin · Camera · Hiệu năng · Giá</text>
+
+        <g font-family="'Be Vietnam Pro',sans-serif">
+          <rect x="34" y="106" width="192" height="60" rx="10" fill="#FFFFFF" stroke="#E3E8F0"/>
+          <text x="46" y="126" fill="#0B1F3A" font-size="11" font-weight="600">Model A</text>
+          <rect x="46" y="134" width="150" height="6" rx="3" fill="#E3E8F0"/>
+          <rect x="46" y="134" width="118" height="6" rx="3" fill="#3B82F6"/>
+          <text x="46" y="156" fill="#4B5A72" font-size="9">Điểm hiệu năng: 86/100</text>
+
+          <rect x="34" y="176" width="192" height="60" rx="10" fill="#FFFFFF" stroke="#E3E8F0"/>
+          <text x="46" y="196" fill="#0B1F3A" font-size="11" font-weight="600">Model B</text>
+          <rect x="46" y="204" width="150" height="6" rx="3" fill="#E3E8F0"/>
+          <rect x="46" y="204" width="96" height="6" rx="3" fill="#0B1F3A"/>
+          <text x="46" y="226" fill="#4B5A72" font-size="9">Điểm hiệu năng: 69/100</text>
+        </g>
+
+        <g transform="translate(34,254)">
+          <text x="0" y="0" fill="#0B1F3A" font-family="'Be Vietnam Pro',sans-serif" font-size="11" font-weight="700">Đánh giá thực tế</text>
+          <circle cx="8" cy="22" r="8" fill="#DCE6F7"/>
+          <rect x="22" y="15" width="150" height="6" rx="3" fill="#E3E8F0"/>
+          <rect x="22" y="25" width="110" height="6" rx="3" fill="#E3E8F0"/>
+          <circle cx="8" cy="52" r="8" fill="#DCE6F7"/>
+          <rect x="22" y="45" width="140" height="6" rx="3" fill="#E3E8F0"/>
+          <rect x="22" y="55" width="90" height="6" rx="3" fill="#E3E8F0"/>
+        </g>
+
+        <rect x="34" y="420" width="192" height="40" rx="20" fill="#3B82F6"/>
+        <text x="130" y="444" fill="#FFFFFF" font-family="'Be Vietnam Pro',sans-serif" font-size="11" font-weight="700" text-anchor="middle">Xem bảng đầy đủ</text>
+      </svg>
+    </div>
+  </div>
+  <div class="absolute -right-24 -bottom-24 w-72 h-72 rounded-full opacity-20 pointer-events-none hero-glow"></div>
+</section>
+
+<!-- DANH MỤC & SẢN PHẨM -->
+<section id="danhmuc" class="surface border-b hairline">
+  <div class="max-w-6xl mx-auto px-5 md:px-8 py-12 md:py-16">
+    <h2 class="text-2xl md:text-[2rem] font-800">Sản phẩm theo danh mục</h2>
+    <p class="text-soft mt-2 max-w-md">Lọc theo đúng nhóm sản phẩm bạn cần, mỗi sản phẩm hiển thị thẳng tên và thông số chính.</p>
+
+    <div class="mt-7 flex gap-3 overflow-x-auto no-scrollbar" id="catFilters">
+      <button data-filter="all" class="filter-chip active shrink-0 rounded-full px-5 py-2 text-sm font-medium">Tất cả</button>
+      <button data-filter="Điện thoại" class="filter-chip shrink-0 rounded-full px-5 py-2 text-sm font-medium">Điện thoại</button>
+      <button data-filter="Tai nghe" class="filter-chip shrink-0 rounded-full px-5 py-2 text-sm font-medium">Tai nghe</button>
+      <button data-filter="Sạc &amp; cáp" class="filter-chip shrink-0 rounded-full px-5 py-2 text-sm font-medium">Sạc &amp; cáp</button>
+      <button data-filter="Ốp lưng &amp; kính cường lực" class="filter-chip shrink-0 rounded-full px-5 py-2 text-sm font-medium">Ốp lưng &amp; kính cường lực</button>
+      <button data-filter="Đồng hồ thông minh" class="filter-chip shrink-0 rounded-full px-5 py-2 text-sm font-medium">Đồng hồ thông minh</button>
+    </div>
+
+    <p id="productResultsStatus" class="sr-only" role="status" aria-live="polite"></p>
+    <p id="productEmptyState" class="hidden mt-6 text-soft" role="status">Không tìm thấy sản phẩm phù hợp.</p>
+    <div id="productGrid" class="mt-8 grid sm:grid-cols-2 md:grid-cols-4 gap-5">
+      <article class="product-card border hairline rounded-2xl p-5 flex flex-col" data-cat="Điện thoại">
+        <img class="product-photo" src="images/samsung-galaxy-a55-5g.png" alt="Samsung Galaxy A55 5G" loading="lazy">
+        <h3 class="mt-4 font-semibold text-[15px]">Galaxy A55 5G</h3>
+        <p class="text-soft text-[13px] mt-1 leading-relaxed flex-1">Camera chống rung OIS, pin 5000mAh</p>
+        <div class="mt-4 flex items-center justify-between"><span class="font-bold text-[15px]">8.990.000đ</span><a href="#" class="text-sky text-[13px] font-semibold hover:underline">Xem chi tiết</a></div>
+      </article>
+      <article class="product-card border hairline rounded-2xl p-5 flex flex-col" data-cat="Điện thoại">
+        <img class="product-photo" src="images/iphone-18-pro.png" alt="iPhone 18 Pro" loading="lazy">
+        <h3 class="mt-4 font-semibold text-[15px]">iPhone 18 Pro</h3>
+        <p class="text-soft text-[13px] mt-1 leading-relaxed flex-1">Liên hệ để nhận thông tin cấu hình và tình trạng hàng.</p>
+        <div class="mt-4 flex items-center justify-between"><span class="font-bold text-[15px]">33.000.000đ</span><a href="#lienhe" class="text-sky text-[13px] font-semibold hover:underline">Tư vấn</a></div>
+      </article>
+      <article class="product-card border hairline rounded-2xl p-5 flex flex-col" data-cat="Điện thoại">
+        <img class="product-photo" src="images/iphone-18-pro-max.png" alt="iPhone 18 Pro Max" loading="lazy">
+        <h3 class="mt-4 font-semibold text-[15px]">iPhone 18 Pro Max</h3>
+        <p class="text-soft text-[13px] mt-1 leading-relaxed flex-1">Liên hệ để nhận thông tin cấu hình và tình trạng hàng.</p>
+        <div class="mt-4 flex items-center justify-between"><span class="font-bold text-[15px]">41.500.000đ</span><a href="#lienhe" class="text-sky text-[13px] font-semibold hover:underline">Tư vấn</a></div>
+      </article>
+      <article class="product-card border hairline rounded-2xl p-5 flex flex-col" data-cat="Điện thoại">
+        <img class="product-photo" src="images/iphone-17-pro.png" alt="iPhone 17 Pro" loading="lazy">
+        <h3 class="mt-4 font-semibold text-[15px]">iPhone 17 Pro</h3>
+        <p class="text-soft text-[13px] mt-1 leading-relaxed flex-1">Liên hệ để nhận thông tin cấu hình và tình trạng hàng.</p>
+        <div class="mt-4 flex items-center justify-between"><span class="font-bold text-[15px]">25.000.000đ</span><a href="#lienhe" class="text-sky text-[13px] font-semibold hover:underline">Tư vấn</a></div>
+      </article>
+      <article class="product-card border hairline rounded-2xl p-5 flex flex-col" data-cat="Điện thoại">
+        <img class="product-photo" src="images/iphone-17-pro-max.png" alt="iPhone 17 Pro Max" loading="lazy">
+        <h3 class="mt-4 font-semibold text-[15px]">iPhone 17 Pro Max</h3>
+        <p class="text-soft text-[13px] mt-1 leading-relaxed flex-1">Liên hệ để nhận thông tin cấu hình và tình trạng hàng.</p>
+        <div class="mt-4 flex items-center justify-between"><span class="font-bold text-[15px]">28.500.000đ</span><a href="#lienhe" class="text-sky text-[13px] font-semibold hover:underline">Tư vấn</a></div>
+      </article>
+      <article class="product-card border hairline rounded-2xl p-5 flex flex-col" data-cat="Điện thoại">
+        <img class="product-photo" src="images/samsung-galaxy-s25-ultra.png" alt="Samsung Galaxy S25 Ultra" loading="lazy">
+        <h3 class="mt-4 font-semibold text-[15px]">Samsung Galaxy S25 Ultra</h3>
+        <p class="text-soft text-[13px] mt-1 leading-relaxed flex-1">Liên hệ để nhận thông tin cấu hình và tình trạng hàng.</p>
+        <div class="mt-4 flex items-center justify-between"><span class="font-bold text-[15px]">Liên hệ</span><a href="#lienhe" class="text-sky text-[13px] font-semibold hover:underline">Tư vấn</a></div>
+      </article>
+      <article class="product-card border hairline rounded-2xl p-5 flex flex-col" data-cat="Điện thoại">
+        <img class="product-photo" src="images/samsung-galaxy-s26-ultra.png" alt="Samsung Galaxy S26 Ultra" loading="lazy">
+        <h3 class="mt-4 font-semibold text-[15px]">Samsung Galaxy S26 Ultra</h3>
+        <p class="text-soft text-[13px] mt-1 leading-relaxed flex-1">Liên hệ để nhận thông tin cấu hình và tình trạng hàng.</p>
+        <div class="mt-4 flex items-center justify-between"><span class="font-bold text-[15px]">Liên hệ</span><a href="#lienhe" class="text-sky text-[13px] font-semibold hover:underline">Tư vấn</a></div>
+      </article>
+      <article class="product-card border hairline rounded-2xl p-5 flex flex-col" data-cat="Tai nghe">
+        <img class="product-photo" src="images/airpods-pro-2.png" alt="AirPods Pro 2" loading="lazy">
+        <h3 class="mt-4 font-semibold text-[15px]">AirPods Pro 2</h3>
+        <p class="text-soft text-[13px] mt-1 leading-relaxed flex-1">Chống ồn chủ động, sạc nhanh MagSafe</p>
+        <div class="mt-4 flex items-center justify-between"><span class="font-bold text-[15px]">5.490.000đ</span><a href="#" class="text-sky text-[13px] font-semibold hover:underline">Xem chi tiết</a></div>
+      </article>
+      <article class="product-card border hairline rounded-2xl p-5 flex flex-col" data-cat="Tai nghe">
+        <img class="product-photo" src="images/galaxy-buds-fe.png" alt="Galaxy Buds FE" loading="lazy">
+        <h3 class="mt-4 font-semibold text-[15px]">Galaxy Buds FE</h3>
+        <p class="text-soft text-[13px] mt-1 leading-relaxed flex-1">Chống nước IPX2, pin 30 giờ</p>
+        <div class="mt-4 flex items-center justify-between"><span class="font-bold text-[15px]">1.990.000đ</span><a href="#" class="text-sky text-[13px] font-semibold hover:underline">Xem chi tiết</a></div>
+      </article>
+      <article class="product-card border hairline rounded-2xl p-5 flex flex-col" data-cat="Sạc & cáp">
+        <img class="product-photo" src="images/charger-33w-usb-c.png" alt="Bộ sạc nhanh USB-C 33W" loading="lazy">
+        <h3 class="mt-4 font-semibold text-[15px]">Sạc nhanh 33W Type-C</h3>
+        <p class="text-soft text-[13px] mt-1 leading-relaxed flex-1">Tương thích đa thiết bị, có chip bảo vệ an toàn</p>
+        <div class="mt-4 flex items-center justify-between"><span class="font-bold text-[15px]">390.000đ</span><a href="#" class="text-sky text-[13px] font-semibold hover:underline">Xem chi tiết</a></div>
+      </article>
+      <article class="product-card border hairline rounded-2xl p-5 flex flex-col" data-cat="Sạc & cáp">
+        <img class="product-photo" src="images/usb-c-cable.png" alt="Cáp USB-C hai đầu" loading="lazy">
+        <h3 class="mt-4 font-semibold text-[15px]">Cáp USB-C hai đầu 1m</h3>
+        <p class="text-soft text-[13px] mt-1 leading-relaxed flex-1">Dùng để sạc và truyền dữ liệu cho thiết bị có cổng USB-C.</p>
+        <div class="mt-4 flex items-center justify-between"><span class="font-bold text-[15px]">250.000đ</span><a href="#" class="text-sky text-[13px] font-semibold hover:underline">Xem chi tiết</a></div>
+      </article>
+      <article class="product-card border hairline rounded-2xl p-5 flex flex-col" data-cat="Ốp lưng &amp; kính cường lực">
+        <img class="product-photo" src="images/shockproof-magsafe-case.png" alt="Ốp lưng chống sốc MagSafe" loading="lazy">
+        <h3 class="mt-4 font-semibold text-[15px]">Ốp lưng chống sốc MagSafe</h3>
+        <p class="text-soft text-[13px] mt-1 leading-relaxed flex-1">Đạt chuẩn chống rơi từ độ cao 2m</p>
+        <div class="mt-4 flex items-center justify-between"><span class="font-bold text-[15px]">350.000đ</span><a href="#" class="text-sky text-[13px] font-semibold hover:underline">Xem chi tiết</a></div>
+      </article>
+      <article class="product-card border hairline rounded-2xl p-5 flex flex-col" data-cat="Ốp lưng &amp; kính cường lực">
+        <img class="product-photo" src="images/tempered-glass.png" alt="Kính cường lực full keo" loading="lazy">
+        <h3 class="mt-4 font-semibold text-[15px]">Kính cường lực full keo</h3>
+        <p class="text-soft text-[13px] mt-1 leading-relaxed flex-1">Độ cứng 9H, viền đen ôm sát màn hình</p>
+        <div class="mt-4 flex items-center justify-between"><span class="font-bold text-[15px]">150.000đ</span><a href="#" class="text-sky text-[13px] font-semibold hover:underline">Xem chi tiết</a></div>
+      </article>
+      <article class="product-card border hairline rounded-2xl p-5 flex flex-col" data-cat="Đồng hồ thông minh">
+        <img class="product-photo" src="images/watch-gt-4.png" alt="Đồng hồ Watch GT 4" loading="lazy">
+        <h3 class="mt-4 font-semibold text-[15px]">Watch GT 4</h3>
+        <p class="text-soft text-[13px] mt-1 leading-relaxed flex-1">Đo nhịp tim 24/7, pin dùng được 7 ngày</p>
+        <div class="mt-4 flex items-center justify-between"><span class="font-bold text-[15px]">4.490.000đ</span><a href="#" class="text-sky text-[13px] font-semibold hover:underline">Xem chi tiết</a></div>
+      </article>
+      <article class="product-card border hairline rounded-2xl p-5 flex flex-col" data-cat="Đồng hồ thông minh">
+        <img class="product-photo" src="images/mi-band-9.png" alt="Vòng đeo tay thông minh Mi Band 9" loading="lazy">
+        <h3 class="mt-4 font-semibold text-[15px]">Mi Band 9</h3>
+        <p class="text-soft text-[13px] mt-1 leading-relaxed flex-1">Màn hình AMOLED, chống nước 5ATM</p>
+        <div class="mt-4 flex items-center justify-between"><span class="font-bold text-[15px]">890.000đ</span><a href="#" class="text-sky text-[13px] font-semibold hover:underline">Xem chi tiết</a></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES / LỢI ÍCH — editorial list, not card-grid -->
+<section id="loiich" class="max-w-6xl mx-auto px-5 md:px-8 py-16 md:py-24">
+  <div class="max-w-xl">
+    <h2 class="text-2xl md:text-[2rem] font-800">Mua đúng máy, không cần đoán.</h2>
+    <p class="text-soft mt-3 leading-relaxed">Ba điều chúng tôi làm khác, để việc chọn sản phẩm không còn dựa vào cảm giác.</p>
+  </div>
+
+  <div class="mt-10 grid md:grid-cols-3 border-t hairline">
+    <div class="border-b md:border-b-0 md:border-r hairline py-8 md:py-10 pr-0 md:pr-8">
+      <svg width="34" height="34" viewBox="0 0 24 24" fill="none" class="text-sky"><path d="M4 19V9M12 19V5M20 19v-7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      <h3 class="mt-5 font-semibold text-lg">So sánh minh bạch</h3>
+      <p class="text-soft mt-2 text-[15px] leading-relaxed">Mọi sản phẩm hiển thị thông số, điểm hiệu năng và giá cạnh bên các đối thủ cùng tầm, lấy từ cùng một bộ tiêu chí kiểm thử.</p>
+    </div>
+    <div class="border-b md:border-b-0 md:border-r hairline py-8 md:py-10 px-0 md:px-8">
+      <svg width="34" height="34" viewBox="0 0 24 24" fill="none" class="text-sky"><path d="M8 12l2.5 2.5L16 9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"/></svg>
+      <h3 class="mt-5 font-semibold text-lg">Đánh giá từ người đã mua</h3>
+      <p class="text-soft mt-2 text-[15px] leading-relaxed">Nhận xét hiển thị kèm thời gian sử dụng thực tế, không lọc theo điểm số cao để quảng cáo sản phẩm.</p>
+    </div>
+    <div class="py-8 md:py-10 pl-0 md:pl-8">
+      <svg width="34" height="34" viewBox="0 0 24 24" fill="none" class="text-sky"><path d="M4 7l8-4 8 4-8 4-8-4z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M4 7v10l8 4 8-4V7" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+      <h3 class="mt-5 font-semibold text-lg">Bảo hành rõ từ ngày đầu</h3>
+      <p class="text-soft mt-2 text-[15px] leading-relaxed">Chính sách đổi trả và thời hạn bảo hành ghi cụ thể trên từng sản phẩm — không cần hỏi lại nhân viên mới biết.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SOCIAL PROOF / CASE STUDY BAND -->
+<section class="bg-navy-800">
+  <div class="max-w-6xl mx-auto px-5 md:px-8 py-14 md:py-16 grid md:grid-cols-[1fr_auto] gap-8 items-center">
+    <p class="text-white text-lg md:text-xl leading-relaxed max-w-2xl font-medium">
+      "Trong năm 2026, hơn 15.000 khách hàng đã dùng bảng so sánh của Tiến Táo trước khi quyết định — tỷ lệ đổi trả vì chọn sai máy giảm 40% so với năm trước."
+    </p>
+    <div class="shrink-0 flex gap-8 md:gap-10">
+      <div><div class="text-white text-2xl font-bold">4.8/5</div><div class="text-[13px] text-on-navy-soft">điểm hài lòng</div></div>
+      <div><div class="text-white text-2xl font-bold">-40%</div><div class="text-[13px] text-on-navy-soft">đổi trả vì sai máy</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="danhgia" class="max-w-6xl mx-auto px-5 md:px-8 py-16 md:py-24">
+  <h2 class="text-2xl md:text-[2rem] font-800">Khách hàng nói gì sau khi mua.</h2>
+  <div class="mt-10 grid gap-5 md:grid-cols-3">
+    <article class="surface border hairline rounded-2xl p-7">
+      <span class="quote-mark text-5xl text-sky">"</span>
+      <p class="mt-2 text-[15px] leading-relaxed">Mình phân vân giữa hai mẫu tầm giá 8 triệu, xem bảng so sánh pin và camera xong là chốt được luôn, không mất thời gian hỏi khắp nơi.</p>
+      <div class="mt-6 flex items-center gap-3">
+        <img class="w-9 h-9 rounded-full object-cover" src="images/minh-thu.png" alt="Ảnh đại diện Minh Thư" loading="lazy">
+        <div><div class="font-semibold text-sm">Minh Thư</div><div class="text-soft text-[13px]">Đã mua điện thoại tầm trung</div></div>
+      </div>
+    </article>
+    <article class="surface border hairline rounded-2xl p-7">
+      <span class="quote-mark text-5xl text-sky">"</span>
+      <p class="mt-2 text-[15px] leading-relaxed">Đổi trả dễ hơn mình nghĩ, vì ngay từ đầu trang sản phẩm đã ghi rõ điều kiện, không phải tranh cãi với ai cả.</p>
+      <div class="mt-6 flex items-center gap-3">
+        <img class="w-9 h-9 rounded-full object-cover" src="images/quoc-huy.png" alt="Ảnh đại diện Quốc Huy" loading="lazy">
+        <div><div class="font-semibold text-sm">Quốc Huy</div><div class="text-soft text-[13px]">Đã đổi trả trong 7 ngày</div></div>
+      </div>
+    </article>
+    <article class="surface border hairline rounded-2xl p-7">
+      <span class="quote-mark text-5xl text-sky">"</span>
+      <p class="mt-2 text-[15px] leading-relaxed">Phần đánh giá có ghi cả thời gian người dùng đã dùng máy, nên mình tin hơn nhiều so với review một chiều trên mạng.</p>
+      <div class="mt-6 flex items-center gap-3">
+        <img class="w-9 h-9 rounded-full object-cover" src="images/lan-anh.png" alt="Ảnh đại diện Lan Anh" loading="lazy">
+        <div><div class="font-semibold text-sm">Lan Anh</div><div class="text-soft text-[13px]">Đã mua phụ kiện kèm máy</div></div>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- LIÊN HỆ -->
+<section id="lienhe" class="max-w-6xl mx-auto px-5 md:px-8 py-16 md:py-24">
+  <h2 class="text-2xl md:text-[2rem] font-800">Liên hệ với Tiến Táo</h2>
+  <p class="text-soft mt-2 max-w-md">Ghé cửa hàng để xem máy thật, hoặc để lại lời nhắn — đội ngũ tư vấn phản hồi trong ngày.</p>
+  <div class="mt-9 grid sm:grid-cols-2 md:grid-cols-4 gap-5">
+    <div class="border hairline rounded-2xl p-5"><div class="text-soft text-[13px]">Điện thoại</div><div class="font-semibold mt-1">1900 6868</div></div>
+    <div class="border hairline rounded-2xl p-5"><div class="text-soft text-[13px]">Địa chỉ</div><div class="font-semibold mt-1">72 Lê Lợi, Quận 1, TP.HCM</div></div>
+    <div class="border hairline rounded-2xl p-5"><div class="text-soft text-[13px]">Giờ mở cửa</div><div class="font-semibold mt-1">8:00 – 21:30 mỗi ngày</div></div>
+    <div class="border hairline rounded-2xl p-5"><div class="text-soft text-[13px]">Email</div><a href="mailto:tientao999@gmail.com" class="font-semibold mt-1 inline-block hover:text-sky">tientao999@gmail.com</a></div>
+  </div>
+  <div class="mt-10 grid md:grid-cols-2 gap-8 items-stretch">
+    <div class="rounded-2xl overflow-hidden border hairline bg-navy-800 min-h-[260px]">
+      <svg viewBox="0 0 400 260" class="w-full h-full">
+        <rect width="400" height="260" fill="#0F2746"/>
+        <g stroke="#2E4D78" stroke-width="1">
+          <line x1="0" y1="65" x2="400" y2="65"/><line x1="0" y1="130" x2="400" y2="130"/><line x1="0" y1="195" x2="400" y2="195"/>
+          <line x1="100" y1="0" x2="100" y2="260"/><line x1="200" y1="0" x2="200" y2="260"/><line x1="300" y1="0" x2="300" y2="260"/>
+        </g>
+        <circle cx="200" cy="128" r="9" fill="#3B82F6"/>
+        <circle cx="200" cy="128" r="18" fill="#3B82F6" opacity=".25"/>
+        <text x="200" y="162" fill="#EAF0FA" font-family="'Be Vietnam Pro',sans-serif" font-size="12" text-anchor="middle" font-weight="600">72 Lê Lợi, Q.1</text>
+      </svg>
+    </div>
+    <form id="contactForm" class="space-y-4">
+      <div><label class="text-sm font-medium">Họ tên</label><input required type="text" class="mt-1.5 w-full hairline border rounded-lg px-4 py-2.5 text-sm bg-transparent"></div>
+      <div><label class="text-sm font-medium">Email</label><input required type="email" class="mt-1.5 w-full hairline border rounded-lg px-4 py-2.5 text-sm bg-transparent"></div>
+      <div><label class="text-sm font-medium">Nội dung</label><textarea required rows="4" class="mt-1.5 w-full hairline border rounded-lg px-4 py-2.5 text-sm bg-transparent"></textarea></div>
+      <button type="submit" class="btn-primary rounded-full px-7 py-3 font-semibold text-[15px]">Gửi tin nhắn</button>
+      <p id="formMsg" class="hidden text-sm text-sky" role="status" aria-live="polite">Biểu mẫu chưa được kết nối dịch vụ gửi tin nhắn. Vui lòng liên hệ <a href="mailto:tientao999@gmail.com" class="underline">tientao999@gmail.com</a>.</p>
+    </form>
+  </div>
+</section>
+
+<!-- CTA BANNER -->
+<section id="cta" class="bg-navy">
+  <div class="max-w-6xl mx-auto px-5 md:px-8 py-16 md:py-20 text-center">
+    <h2 class="text-white text-2xl md:text-[2rem] font-800 max-w-xl mx-auto">Sẵn sàng tìm chiếc máy phù hợp với mình chưa?</h2>
+    <p class="mt-3 max-w-md mx-auto text-on-navy-muted">So sánh vài mẫu máy trong vòng 2 phút, hoặc để đội ngũ tư vấn gợi ý theo đúng nhu cầu của bạn.</p>
+    <div class="mt-7 flex flex-wrap justify-center gap-3">
+      <a href="#danhmuc" class="btn-primary rounded-full px-7 py-3.5 font-semibold text-[15px]">Bắt đầu so sánh</a>
+      <a href="#lienhe" class="rounded-full px-7 py-3.5 font-semibold text-[15px] border border-white/25 text-white hover:bg-white/10 transition-colors">Liên hệ tư vấn</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="bg-navy-800">
+  <div class="max-w-6xl mx-auto px-5 md:px-8 py-14 grid sm:grid-cols-2 md:grid-cols-4 gap-10">
+    <div>
+      <span class="text-xl text-white font-900">Tiến Táo</span>
+      <p class="mt-3 text-[14px] leading-relaxed text-on-navy-soft">Nền tảng bán điện thoại và phụ kiện, lấy dữ liệu so sánh làm trọng tâm.</p>
+    </div>
+    <div>
+      <div class="text-white font-semibold text-sm">Sản phẩm</div>
+      <ul class="mt-4 space-y-2.5 text-[14px] text-on-navy-soft">
+        <li><a href="#" class="hover:text-white transition-colors">Điện thoại</a></li>
+        <li><a href="#" class="hover:text-white transition-colors">Phụ kiện</a></li>
+        <li><a href="#" class="hover:text-white transition-colors">Bảng so sánh</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="text-white font-semibold text-sm">Hỗ trợ</div>
+      <ul class="mt-4 space-y-2.5 text-[14px] text-on-navy-soft">
+        <li><a href="#" class="hover:text-white transition-colors">Chính sách bảo hành</a></li>
+        <li><a href="#" class="hover:text-white transition-colors">Đổi trả</a></li>
+        <li><a href="#" class="hover:text-white transition-colors">Liên hệ</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="text-white font-semibold text-sm">Công ty</div>
+      <ul class="mt-4 space-y-2.5 text-[14px] text-on-navy-soft">
+        <li><a href="#" class="hover:text-white transition-colors">Về Tiến Táo</a></li>
+        <li><a href="#" class="hover:text-white transition-colors">Tuyển dụng</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="border-t border-white/10">
+    <div class="max-w-6xl mx-auto px-5 md:px-8 py-8 grid sm:grid-cols-2 gap-6 items-center">
+      <div>
+        <div class="text-white font-semibold text-sm">Đăng ký nhận ưu đãi</div>
+        <p class="text-[13px] mt-1 text-on-navy-soft">Nhận thông báo khi có sản phẩm mới hoặc giảm giá.</p>
+      </div>
+      <form id="newsletterForm" class="flex gap-2">
+        <input type="email" required placeholder="Email của bạn" class="flex-1 rounded-lg px-4 py-2.5 text-sm bg-white/5 border border-white/15 text-white placeholder:text-white/40">
+        <button type="submit" class="btn-primary rounded-lg px-5 py-2.5 text-sm font-semibold shrink-0">Đăng ký</button>
+      </form>
+      <p id="newsletterMsg" class="hidden sm:col-span-2 text-sm text-on-navy-soft" role="status" aria-live="polite">Chưa thể đăng ký nhận ưu đãi vì biểu mẫu chưa được kết nối dịch vụ email.</p>
+    </div>
+  </div>
+  <div class="flex items-center justify-center gap-2 pt-5">
+    <span class="text-[11px] px-2.5 py-1 rounded border border-white/15 text-on-navy-soft">Visa</span>
+    <span class="text-[11px] px-2.5 py-1 rounded border border-white/15 text-on-navy-soft">Mastercard</span>
+    <span class="text-[11px] px-2.5 py-1 rounded border border-white/15 text-on-navy-soft">MoMo</span>
+    <span class="text-[11px] px-2.5 py-1 rounded border border-white/15 text-on-navy-soft">ZaloPay</span>
+  </div>
+  <div class="border-t border-white/10 py-5 text-center text-[13px] footer-legal">
+    © 2026 Tiến Táo. Mọi quyền được bảo lưu.
+  </div>
+</footer>
+
+<dialog id="cartDialog" class="shop-dialog" aria-labelledby="cartTitle">
+  <div class="shop-dialog-content">
+    <div class="shop-dialog-header">
+      <div>
+        <h2 id="cartTitle" class="text-xl font-bold">Giỏ hàng</h2>
+        <p class="text-soft text-sm mt-1">Các sản phẩm bạn đã chọn</p>
+      </div>
+      <button type="button" class="dialog-close" data-close-dialog aria-label="Đóng giỏ hàng">×</button>
+    </div>
+    <div id="cartItems" class="cart-items"></div>
+    <div class="cart-summary">
+      <span id="cartSubtotalLabel">Tạm tính</span>
+      <strong id="cartSubtotal">0đ</strong>
+    </div>
+    <p id="cartPriceNote" class="hidden text-soft text-sm mt-2">Tạm tính chưa bao gồm sản phẩm cần xác nhận giá.</p>
+    <a href="#lienhe" id="cartContactLink" class="btn-primary rounded-full px-6 py-3 font-semibold text-sm text-center mt-5 block">Liên hệ đặt hàng</a>
+  </div>
+</dialog>
+
+<dialog id="productDialog" class="shop-dialog" aria-labelledby="productDialogTitle">
+  <div class="shop-dialog-content">
+    <div class="shop-dialog-header">
+      <span class="text-sky text-sm font-semibold">CHI TIẾT SẢN PHẨM</span>
+      <button type="button" class="dialog-close" data-close-dialog aria-label="Đóng chi tiết sản phẩm">×</button>
+    </div>
+    <div class="product-detail">
+      <img id="detailImage" class="product-detail-image" src="" alt="">
+      <div>
+        <p id="detailCategory" class="text-soft text-sm"></p>
+        <h2 id="productDialogTitle" class="text-2xl font-bold mt-2"></h2>
+        <p id="detailPrice" class="text-sky text-xl font-bold mt-3"></p>
+        <p id="detailDescription" class="text-soft leading-relaxed mt-4"></p>
+        <p class="text-soft text-sm leading-relaxed mt-4">Liên hệ Tiến Táo để xác nhận cấu hình, tình trạng hàng và chính sách bảo hành của sản phẩm.</p>
+        <div class="flex flex-wrap gap-3 mt-6">
+          <button type="button" id="detailAddToCart" class="btn-primary rounded-full px-6 py-3 font-semibold text-sm">Thêm vào giỏ</button>
+          <a id="detailContactLink" href="#lienhe" class="btn-ghost rounded-full px-6 py-3 font-semibold text-sm">Tư vấn sản phẩm</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</dialog>
+<dialog id="loginDialog" class="shop-dialog login-dialog" aria-labelledby="loginTitle">
+  <div class="shop-dialog-content">
+    <div class="shop-dialog-header">
+      <div>
+        <h2 id="loginTitle" class="text-xl font-bold">Đăng nhập Tiến Táo</h2>
+        <p class="text-soft text-sm mt-1">Chọn cách bạn muốn tiếp tục</p>
+      </div>
+      <button type="button" class="dialog-close" data-close-dialog aria-label="Đóng đăng nhập">×</button>
+    </div>
+
+    <button id="googleLoginBtn" type="button" class="login-google-button">
+      <span class="google-mark" aria-hidden="true">G</span>
+      Tiếp tục với Google
+    </button>
+    <div class="login-divider"><span>hoặc đăng nhập bằng</span></div>
+
+    <div class="login-methods" aria-label="Phương thức đăng nhập">
+      <button type="button" class="login-method-button is-active" data-login-method="email" aria-pressed="true">Email</button>
+      <button type="button" class="login-method-button" data-login-method="phone" aria-pressed="false">Số điện thoại</button>
+    </div>
+
+    <form id="emailLoginForm" class="login-form" data-login-panel="email">
+      <label for="loginEmail">Địa chỉ email</label>
+      <input id="loginEmail" name="email" type="email" autocomplete="email" required class="login-input" placeholder="ban@email.com">
+      <label for="loginPassword">Mật khẩu</label>
+      <input id="loginPassword" name="password" type="password" autocomplete="current-password" required class="login-input" placeholder="Nhập mật khẩu">
+      <button type="submit" class="btn-primary rounded-full px-6 py-3 font-semibold text-sm mt-2">Đăng nhập bằng email</button>
+    </form>
+
+    <form id="phoneLoginForm" class="login-form" data-login-panel="phone" hidden>
+      <label for="loginPhone">Số điện thoại</label>
+      <input id="loginPhone" name="phone" type="tel" autocomplete="tel" required class="login-input" placeholder="Ví dụ: 0912 345 678">
+      <button type="submit" class="btn-primary rounded-full px-6 py-3 font-semibold text-sm mt-2">Gửi mã OTP</button>
+    </form>
+
+    <p id="loginStatus" class="login-status" role="status" aria-live="polite" hidden></p>
+    <p class="text-soft text-xs leading-relaxed mt-5">Đăng nhập thật cần kết nối máy chủ xác thực. Google OAuth và gửi mã OTP hiện chưa được cấu hình.</p>
+  </div>
+</dialog>
+<p id="shopNotice" class="shop-notice" role="status" aria-live="polite"></p>
+</body>
+</html>
